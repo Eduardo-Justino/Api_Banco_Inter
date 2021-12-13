@@ -1,82 +1,67 @@
 import { format } from 'date-fns';
 import {FiDollarSign} from 'react-icons/fi';
-import React from 'react';
-import {StatementContainer, StatementItemImage,StatementeItemContainer,StatementItemInfo} from './styles'
+import {AStatementContainer, AStatementItemImage,AStatementeItemContainer,AStatementItemInfo} from './styles'
+import {transaction} from '../../../services/resources/pix';
+import {useState, useEffect} from 'react'
 
-interface StatementItemprops {
+interface StatementItems {
     user: {
         firstName: string,
-        lasttName: string
+        lastName: string
     },
-    value: number,
-    type: 'pay' |'received',
-    updateAt: Date
-
+        value: number,
+        type: 'paid' | 'received',
+        updateAt: Date  
 }
 
-
-const StatementItem = ( {user,value,type,updateAt}:StatementItemprops) => {
+const StatementItem = ({user,value,type,updateAt}: StatementItems) => {
+    
    
     return(
-        <StatementeItemContainer>
-            <StatementItemImage type={type}>
-                <FiDollarSign size={24}/>
-            </StatementItemImage>
-            <StatementItemInfo>
-                <p className='primary-color'> {value.toLocaleString('pt-br',{
-                    style:'currency',
-                    currency:'BRL'
-                })}</p>
-                <p> {type === 'pay' ? 'pago a ' : 'recebido de'} <strong>{user.firstName} 
-                {user.lastName}</strong></p>
-                <p>{format (updateAt, "dd/MM/yyyy' 'as' HH:mm:'h' ")}</p>
-            </StatementItemInfo>
-        </StatementeItemContainer>
+            <AStatementeItemContainer>
+                <AStatementItemImage type={type}>
+                    <FiDollarSign size={24}/>
+                </AStatementItemImage>
+                <AStatementItemInfo>
+                    <p className='primary-color'> {value.toLocaleString('pt-br',{
+                        style:'currency',
+                        currency:'BRL'
+                    })}</p>
+                    <p> {type === 'paid' ? 'pago a ' : 'recebido de'} <strong>
+                     {user.firstname}_{user.lastName}</strong></p>
+                    <p>{updateAt}</p>
+                </AStatementItemInfo>
+            </AStatementeItemContainer>
     )
 }
 
+
 const Statement = () => {
+
+    const [statements, setStatements] = useState([]); 
     
-     const statements: StatementItemprops [] = [
-        {
-            user: {
-                firstName: 'EDUARDO',
-                lasttName: 'JUSTINO'
-            },
-            value: 250.00,
-            type: 'pay',
-            updateAt: new Date()
-        
-        },
 
-        {
-            user: {
-                firstName: 'igor',
-                lasttName: 'JUSTINO'
-            },
-            value: 600.00,
-            type: 'received',
-            updateAt: new Date()
+    const getAlltransactions = async() => {
+        
+        const {data} = await transaction();
+        setStatements(data.transactions);
+        console.log("teste",data.transactions)
+        
+
+    }
+
+    useEffect(()=>{
+
+        getAlltransactions();
+        
+
+    },[])
+
     
-        },
-
-        {
-            user: {
-                firstName: 'deia',
-                lasttName: 'JUSTINO'
-            },
-            value: 250.00,
-            type: 'received',
-            updateAt: new Date()
-        
-        },
-
-    ]
-
     return (
-            <StatementContainer>
-                {statements.map(statement => <StatementItem{...statement}/>)}
-            </StatementContainer>
+        <AStatementContainer>
+             {statements.length > 0 && statements.map(statement => <StatementItem{...statement}/>)}   
+        </AStatementContainer>
     )
 }
 

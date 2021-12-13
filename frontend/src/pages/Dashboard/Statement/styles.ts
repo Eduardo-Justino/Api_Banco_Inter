@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 
-export const StatementContainer = styled.div`
+export const AStatementContainer = styled.div`
 
     width: 100%;
     margin-top: 20px;
@@ -11,14 +11,14 @@ export const StatementContainer = styled.div`
     align-items: flex-start;
 `
 
-export const StatementeItemContainer = styled.div`
+export const AStatementeItemContainer = styled.div`
 
     display: flex;
     width: 100%;
 
 `
 
-export const StatementItemInfo = styled.div`
+export const AStatementItemInfo = styled.div`
 
     p{
         margin-bottom: 2px;
@@ -27,8 +27,8 @@ export const StatementItemInfo = styled.div`
 
 `
 
-export const StatementItemImage = styled.div<{
-    type: 'pay' | 'received'
+export const AStatementItemImage = styled.div<{
+    type: 'paid' | 'received'
 }>`
 
     width: 60px;
@@ -41,10 +41,8 @@ export const StatementItemImage = styled.div<{
     border-radius: 10px;
     margin-bottom: 20px;
 
-    background-color: ${({type,theme})=> type ==='pay' ? theme.colors.red: theme.colors.green};
+    background-color: ${({type,theme})=> type ==='paid' ? theme.colors.red: theme.colors.green};
     
-
-
 
 
 `
