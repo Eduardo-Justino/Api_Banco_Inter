@@ -1,6 +1,7 @@
 # Api_Banco_Inter
 
-Projeto clone do banco inter realizado no curso da DIO
+Projeto clone do banco inter realizado no curso da DIO:
+#ReactJs , Node express, e PostgreSQL
 
 ## Front-end 
 # login:
